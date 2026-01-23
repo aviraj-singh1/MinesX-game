@@ -1,6 +1,3 @@
-/* =========================
-   THEME (Spribe-like Blue)
-========================= */
 :root{
   --bgTop: #0a74d6;
   --bgMid: #0a5ec2;
@@ -23,16 +20,13 @@
   --accentText: #2a1a00;
 
 --safeTop: #ffcf52;
---safeBot: #f56a00; /* orange-ish like Spribe */
+--safeBot: #f56a00;
 
 
   --dangerTop: #ff7b7b;
   --dangerBot: #d42020;
 }
 
-/* =========================
-   BASE
-========================= */
 *{ box-sizing: border-box; }
 html, body { height: 100%; }
 
@@ -47,7 +41,7 @@ body{
 }
 
 body{
-  padding-top: 68px; /* same as .topbar height */
+  padding-top: 68px;
 }
 
 
@@ -67,9 +61,6 @@ body{
 }
 
 
-/* =========================
-   TOP BAR
-========================= */
 .topbar{
   height: 68px;
 
@@ -91,7 +82,7 @@ body{
 }
 
 .topbar{
-  position: fixed; /* already set above */
+  position: fixed;
 }
 
 .modePill{
@@ -162,27 +153,24 @@ body{
 
 .menuDots{
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .menuDots span{
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
   background: rgba(235,245,255,0.95);
   display: block;
 }
 
-/* hover feedback like Spribe */
 .iconBtn:hover .menuDots span{
   background: #ffffff;
+  box-shadow: 0 0 8px rgba(255,255,255,0.6);
 }
-
-/* =========================
-   STAGE
-========================= */
 .stage{
   padding: 18px 16px 12px;
 }
@@ -255,9 +243,6 @@ body{
   gap: 14px;
 }
 
-/* =========================
-   TILE + FLIP
-========================= */
 .tile{
   width: 84px;
   height: 84px;
@@ -288,7 +273,6 @@ body{
   border: 1px solid rgba(255,255,255,0.10);
 }
 
-/* unrevealed tile: spribe-like deep blue with inner dot */
 .tileFront{
   background:
     linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.18)),
@@ -320,7 +304,6 @@ body{
   box-shadow: 0 10px 26px rgba(0,0,0,0.28);
 }
 
-/* revealed safe: orange */
 .tile.safe .tileBack{
   background:
     linear-gradient(180deg, rgba(255,255,255,0.20), rgba(0,0,0,0.12)),
@@ -330,7 +313,6 @@ body{
     0 10px 26px rgba(0,0,0,0.22);
 }
 
-/* icon base */
 .tileBack .icon{
   width: 44px;
   height: 44px;
@@ -338,11 +320,9 @@ body{
   filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25));
 }
 
-/* white star via SVG fill */
 .tile.safe .tileBack svg { fill: rgba(255,255,255,0.95); }
 
 
-/* revealed mine: red */
 .tile.mine .tileBack{
   background:
     linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.10)),
@@ -359,11 +339,9 @@ body{
     0 10px 26px rgba(0,0,0,0.28);
 }
 
-/* prevent “row resize” */
 .tile, .tileFace{ outline: none; }
 
 
-/* clicked mine (explosion style) */
 .tile.mine.clickedMine .tileBack{
   background:
     radial-gradient(90px 90px at 50% 45%, rgba(255,255,255,0.20), rgba(255,255,255,0) 55%),
@@ -371,7 +349,6 @@ body{
 }
 
 
-/* unselected mine tiles → white background like Spribe */
 .tile.mine:not(.clickedMine) .tileBack{
   background:
     linear-gradient(180deg, rgba(255,255,255,0.95), rgba(235,235,235,0.95));
@@ -380,16 +357,12 @@ body{
     0 10px 22px rgba(0,0,0,0.18);
 }
 
-/* bomb icon stays black */
 .tile.mine:not(.clickedMine) .tileBack svg{
   fill: #000;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 
-/* =========================
-   UNDER GRID
-========================= */
 .underGrid{
   display:flex;
   justify-content:center;
@@ -464,9 +437,6 @@ body{
 }
 .toggleText{ opacity: 0.95; }
 
-/* =========================
-   BOTTOM BAR
-========================= */
 .bottombar{
   margin-top: 10px;
   padding: 14px 16px;
@@ -544,7 +514,6 @@ body{
 }
 .ctaBtn:disabled{ opacity: 0.55; cursor:not-allowed; }
 
-/* CTA Toggle States */
 .ctaBtn.betMode{
   background: linear-gradient(180deg, #7ed321, #4caf50);
   color: #0b2a00;
@@ -572,9 +541,6 @@ body{
 }
 .payoutText{ font-weight: 950; }
 
-/* =========================
-   MODALS
-========================= */
 .hidden{ display:none !important; }
 
 .modalOverlay{
@@ -648,9 +614,6 @@ body{
 .miniCell.yellow{ background: var(--accentBot); }
 .miniCell.red{ background: #ff4a4a; }
 
-/* =========================
-   MENU PANEL
-========================= */
 .menuPanel{
   position: fixed;
   top: 76px;
@@ -697,7 +660,6 @@ body{
 .menuItem:hover{ background: rgba(255,255,255,0.06); }
 .menuItem.muted{ color: rgba(234,243,255,0.65); }
 
-/* switch inside menu */
 .switch{
   position:relative;
   width: 46px;
@@ -729,9 +691,6 @@ body{
 }
 
 
-/* =========================
-   HOW TO PLAY (Spribe-like)
-========================= */
 .howtoModal{
   width: min(520px, 92vw);
   border-radius: 14px;
@@ -796,7 +755,6 @@ body{
   color: rgba(240,246,255,0.95);
 }
 
-/* Spribe mini grid */
 .spribeMiniBoard{
   width: 230px;
   margin: 0 auto 14px;
@@ -852,101 +810,67 @@ body{
   opacity: 0.92;
 }
 
-/* =======================================================
-   RESPONSIVE MEDIA QUERIES (New Updates)
-======================================================= */
-
-/* --- TABLETS & SMALL DESKTOPS (Max width 1024px) --- */
 @media (max-width: 1024px) {
-  /* Prevent horizontal overflow */
   .shell { max-width: 100vw; overflow-x: hidden; }
 }
 
-/* --- MOBILE PORTRAIT (Max width 600px) --- */
 @media (max-width: 600px) {
   
-  /* 1. Shrink Header Elements */
   .topbar { padding: 0 10px; height: 56px; }
   body { padding-top: 56px; }
-  
-  /* Hide the large "FUN MODE" pill to save space */
   .modePill { display: none; }
   
-  /* Make buttons smaller */
   .pill, .balancePill, .iconBtn {
-    height: 36px;
-    font-size: 13px;
-    padding: 0 12px;
+    height: 36px; font-size: 13px; padding: 0 12px;
   }
   .iconBtn { width: 36px; }
 
-  /* 2. Fluid Grid (Key change for responsiveness) */
-  .gridFrame {
-    width: 100%;
-    max-width: 380px; /* Constrain width on larger phones */
-    padding: 10px;
-  }
-  
-  .grid {
-    /* Switch from fixed pixels to fluid fractions */
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: auto;
-    gap: 8px;
-  }
-  
-  .tile {
-    /* Allow tile to shrink/grow */
-    width: 100%; 
-    height: auto;
-    aspect-ratio: 1 / 1; /* Keep them square */
-  }
+  .gridFrame { width: 100%; max-width: 380px; padding: 10px; }
+  .grid { grid-template-columns: repeat(5, 1fr); grid-auto-rows: auto; gap: 8px; }
+  .tile { width: 100%; height: auto; aspect-ratio: 1 / 1; }
 
-  /* 3. Stack Bottom Controls */
-  .bottombar {
-    padding: 10px;
-    flex-direction: column; /* Stack vertically */
-    align-items: stretch;
-    gap: 12px;
-  }
-  
-  .betBox, .actionBox {
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 0;
-  }
-  
-  /* Adjust betting row for small width */
+  .bottombar { padding: 10px; flex-direction: column; align-items: stretch; gap: 12px; }
+  .betBox, .actionBox { flex: 1 1 auto; width: 100%; min-width: 0; }
   .betRow { padding: 8px; justify-content: space-between; }
   .betInput { width: 80px; font-size: 18px; }
   
-  .randomBtn { width: 100%; height: 48px; }
+  .underGrid {
+    flex-wrap: wrap; 
+    gap: 10px;       
+  }
+
+  .randomBtn {
+    width: 100%;     
+    height: 48px;
+    order: 1;        
+  }
+
+  .autoControls {
+    width: 100%;     
+    justify-content: center; 
+    order: 2;
+  }
 }
 
 
-/* --- MOBILE LANDSCAPE (Short Height < 500px) --- */
 @media (max-height: 500px) and (orientation: landscape) {
   
-  /* Extremely compact header */
   .topbar { height: 40px; }
   body { padding-top: 40px; }
   .pill, .balancePill, .iconBtn { height: 28px; font-size: 11px; padding: 0 8px; }
   .iconBtn { width: 28px; }
   .modePill { display: none; }
 
-  /* Shrink margins */
   .stage { padding: 4px; display: flex; flex-direction: row; justify-content: center; gap: 20px;}
   .gridWrap { margin-top: 0; }
   
-  /* Make grid tiny to fit vertically */
   .gridFrame { padding: 6px; }
   .grid { gap: 6px; }
-  .tile { width: 44px; height: 44px; } /* Fixed small size */
+  .tile { width: 44px; height: 44px; } 
   
-  /* Hide betting controls in landscape play mode, or compact them */
   .bottombar { 
-    display: none; /* Often best for landscape gaming focus */
+    display: none; 
   }
   
-  /* Move random button to side or hide */
   .underGrid { display: none; }
 }

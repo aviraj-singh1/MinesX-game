@@ -1,7 +1,3 @@
-// =========================
-// Mines (Fun Mode) - Vanilla JS
-// =========================
-
 const $ = (sel) => document.querySelector(sel);
 
 const gridEl = $("#grid");
@@ -37,8 +33,7 @@ const infoBody = $("#infoBody");
 const chips = document.querySelectorAll(".betChip");
 
 
-let resetTimer = null; // <--- ADD THIS
-// --- AUDIO OBJECTS ---
+let resetTimer = null;
 const sounds = {
   click: new Audio("sounds/click.wav"),
   bomb: new Audio("sounds/bomb.wav"),
@@ -47,10 +42,8 @@ const sounds = {
   coin: new Audio("sounds/coin.wav")
 };
 
-// Helper to play sound if toggle is ON
 function playSound(name) {
   if (soundToggle.checked && sounds[name]) {
-    // Reset time so rapid clicks play correctly
     sounds[name].currentTime = 0;
     sounds[name].play().catch(e => console.warn("Audio play blocked", e));
   }
@@ -94,14 +87,9 @@ function setCtaMode(mode){
 }
 
 
-// -------------------------
-// Game State
-// -------------------------
 const SIZE = 5;
 const TOTAL = SIZE * SIZE;
 
-// Check if user has a stored balance. 
-// We use !== null to ensure that if the balance is 0, it loads 0 instead of resetting to 100.
 let storedBalance = localStorage.getItem("mines_balance");
 let balance = storedBalance !== null ? Number(storedBalance) : 100;
 
@@ -113,23 +101,21 @@ let mines = new Set();
 let revealedSafe = 0;
 
 let multiplier = 1.0;
-let stepFactor = 1.10; // changes with mines
+let stepFactor = 1.10;
 let autoTimer = null;
 
 
 function updateBalanceUI(){
-  // FIXED: Save the current balance to storage every time the UI updates
   localStorage.setItem("mines_balance", balance); 
   
   balancePill.textContent = formatINR(balance);
 }
 
-// ... inside existing event listeners ...
 
 const topupBtn = $("#topupBtn");
 if(topupBtn){
   topupBtn.addEventListener("click", () => {
-    window.location.href = "topup.html"; // Redirects to new page
+    window.location.href = "topup.html";
   });
 }
 
@@ -170,16 +156,12 @@ function updateNextUI() {
 
 
 function computeStepFactor(m){
-  // simple fun formula: more mines => faster multiplier
   const min = 1.05;
   const max = 1.20;
-  const t = (m - 1) / 9; // 1..10
+  const t = (m - 1) / 9;
   return +(min + (max - min) * t).toFixed(3);
 }
 
-// -------------------------
-// Board Rendering
-// -------------------------
 function tileTemplate(index){
   const tile = document.createElement("div");
   tile.className = "tile disabled";
@@ -193,7 +175,7 @@ function tileTemplate(index){
 
   const back = document.createElement("div");
   back.className = "tileFace tileBack";
-  back.textContent = ""; // filled on reveal
+  back.textContent = "";
 
   inner.appendChild(front);
   inner.appendChild(back);
@@ -228,9 +210,6 @@ function resetRoundUI(){
   updatePayoutUI();
 }
 
-// -------------------------
-// Mine placement
-// -------------------------
 function randomInt(maxExclusive){
   return Math.floor(Math.random() * maxExclusive);
 }
@@ -254,9 +233,6 @@ function enableTiles(enable){
   });
 }
 
-// -------------------------
-// Reveal logic
-// -------------------------
 function revealTile(tileEl){
   if (!tileEl || tileEl.classList.contains("revealed")) return;
   if (!gameActive) return;
@@ -264,7 +240,6 @@ function revealTile(tileEl){
   const idx = Number(tileEl.dataset.index);
   if (!Number.isFinite(idx)) return;
   
-  // SOUND: Click feedback immediately
   playSound("click");
 
   tileEl.classList.add("selectedGlow");
@@ -274,20 +249,17 @@ function revealTile(tileEl){
 
   if (mine){
     tileEl.classList.add("mine","revealed","clickedMine");
-    if (back) back.innerHTML = explosionSVG();   // clicked mine = explosion
+    if (back) back.innerHTML = explosionSVG();
     
-    // SOUND: Hit a mine
     playSound("bomb");
     
     loseRound(idx);
     return;
   }
 
-  // Safe tile found
   tileEl.classList.add("safe","revealed");
-  if (back) back.innerHTML = starSVG();          // safe = white star
+  if (back) back.innerHTML = starSVG();
 
-  // SOUND: Safe tile coin sound
   playSound("coin");
 
   revealedSafe += 1;
@@ -306,7 +278,7 @@ function revealAllMines(){
       const back = t.querySelector(".tileBack");
       t.classList.add("mine","revealed");
       if (!t.classList.contains("clickedMine")) {
-        if (back) back.innerHTML = bombSVG();        // other mines = bomb on blue tile
+        if (back) back.innerHTML = bombSVG();
       }
     }
   });
@@ -321,7 +293,6 @@ function endRound(){
   updatePayoutUI();
   setCtaMode("bet");
 
-  // 2. Auto-reset the board after 2 seconds
   resetTimer = setTimeout(() => {
     resetRoundUI();
   }, 2000);
@@ -331,8 +302,7 @@ function loseRound(){
   revealAllMines();
   setStatus("Boom! You lost the bet.");
   
-  // SOUND: Lose sad sound
-  setTimeout(() => playSound("lose"), 300); // small delay after explosion
+  setTimeout(() => playSound("lose"), 300);
   
   endRound();
 }
@@ -342,18 +312,13 @@ function winCashout(){
   balance += payout;
   updateBalanceUI();
   
-  // SOUND: Cashout success
   playSound("cashout");
   
   setStatus(`Cashed out: ₹${payout.toLocaleString("en-IN")}`);
   endRound();
 }
 
-// -------------------------
-// Controls
-// -------------------------
 function startRound(){
-  // 1. Clear any pending reset timer from the previous round
   if (resetTimer) clearTimeout(resetTimer);
 
   minesCount = Number(minesSelect.value);
@@ -370,21 +335,17 @@ function startRound(){
     return;
   }
   
-  // SOUND: Start/Click
   playSound("click");
 
-  // take bet
   balance -= bet;
   updateBalanceUI();
 
-  // start game
   gameActive = true;
   multiplier = 1.0;
   revealedSafe = 0;
 
   placeMines();
 
-  // reset tiles visuals
   const tiles = gridEl.querySelectorAll(".tile");
   tiles.forEach(t => {
     t.classList.remove("revealed","safe","mine","selectedGlow");
@@ -406,7 +367,7 @@ function resetBoardHard(){
   gameActive = false;
   bet = 0;
   mines.clear();
-  playSound("click"); // Sound on refresh
+  playSound("click");
   resetRoundUI();
 }
 
@@ -441,9 +402,6 @@ function stopAuto(){
   autoGameToggle.checked = false;
 }
 
-// -------------------------
-// Menu + Modals
-// -------------------------
 function openHowTo(open){
   howToOverlay.classList.toggle("hidden", !open);
   playSound("click");
@@ -470,9 +428,6 @@ function isMenuOpen(){
   return !menuPanel.classList.contains("hidden");
 }
 
-// -------------------------
-// Events
-// -------------------------
 gridEl.addEventListener("click", (e) => {
   const tile = e.target.closest(".tile");
   if (!tile) return;
@@ -499,7 +454,6 @@ randomBtn.addEventListener("click", () => {
 });
 
 refreshBtn.addEventListener("click", () => {
-  // Reset board (does not refund active bet)
   resetBoardHard();
 });
 
@@ -541,21 +495,18 @@ chips.forEach(btn => {
   });
 });
 
-// how to play
 howToBtn.addEventListener("click", () => openHowTo(true));
 howToCloseBtn.addEventListener("click", () => openHowTo(false));
 howToOverlay.addEventListener("click", (e) => {
   if (e.target === howToOverlay) openHowTo(false);
 });
 
-// menu
 menuBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   toggleMenu(!isMenuOpen());
 });
 
 document.addEventListener("click", (e) => {
-  // close menu when clicking outside
   if (isMenuOpen() && !menuPanel.contains(e.target) && e.target !== menuBtn){
     toggleMenu(false);
   }
@@ -586,15 +537,11 @@ infoOverlay.addEventListener("click", (e) => {
   if (e.target === infoOverlay) closeInfo();
 });
 
-// -------------------------
-// Init
-// -------------------------
 function init(){
   renderBoard();
   updateBalanceUI();
 
   const storedSound = localStorage.getItem("mines_sound");
-  // Default sound to ON if not set
   soundToggle.checked = storedSound === null ? true : (storedSound === "1");
 
   minesCount = Number(minesSelect.value);
