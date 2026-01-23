@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mines INR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="shell">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <button class="pill pill-yellow" id="howToBtn">How to Play?</button>
+
+        <div class="modePill" id="modePill">FUN MODE</div>
+
+        <div class="rightControls">
+          <div class="balancePill" id="balancePill">₹ 2,999</div>
+          <button id="menuBtn" class="iconBtn menuDots" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+        </div>
+      </header>
+
+      <!-- STAGE -->
+      <main class="stage">
+        <div class="centerRow">
+          <div class="minesPill">
+            <div class="minesLabel">Mines:</div>
+            <select class="minesSelect" id="minesSelect">
+              <option value="1">1</option>
+              <option value="3" selected>3</option>
+              <option value="5">5</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+
+          <div class="nextPill">
+            <span class="nextLabel">Next:</span>
+            <span class="nextValue" id="nextValue">1.10x</span>
+          </div>
+        </div>
+
+        <div class="gridWrap">
+          <div class="gridFrame">
+            <div class="grid" id="grid" aria-label="Mines board"></div>
+          </div>
+        </div>
+
+        <div class="underGrid">
+          <button class="randomBtn" id="randomBtn">RANDOM</button>
+
+          <div class="autoControls">
+            <button class="miniIconBtn" id="refreshBtn" title="Reset board">⟳</button>
+
+            <label class="toggle">
+              <input type="checkbox" id="autoGameToggle" />
+              <span class="toggleUi"></span>
+              <span class="toggleText">Auto Game</span>
+            </label>
+          </div>
+        </div>
+      </main>
+
+      <!-- BOTTOM BAR -->
+      <footer class="bottombar">
+        <div class="betBox">
+          <div class="betLabel">Bet</div>
+          <div class="betRow">
+            <span class="currency">₹</span>
+            <input id="betInput" class="betInput" type="number" min="1" step="1" value="100" />
+            <button class="betChip" data-chip="100">+100</button>
+            <button class="betChip" data-chip="500">+500</button>
+          </div>
+        </div>
+
+        <div class="actionBox">
+          <button id="ctaBtn" class="ctaBtn betMode">
+  BET
+</button>
+
+          <div class="infoLine">
+            <span id="statusText" class="statusText">Place a bet and press START.</span>
+            <span id="payoutText" class="payoutText">Payout: ₹0</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+    <!-- HOW TO PLAY MODAL (Spribe-like) -->
+  <div class="modalOverlay hidden" id="howToOverlay">
+    <div class="modal howtoModal">
+      <div class="modalHead howtoHead">
+        <div class="modalTitle howtoTitle">HOW TO PLAY</div>
+        <button class="modalClose howtoClose" id="howToCloseBtn" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modalBody howtoBody">
+        <div class="howtoGameMark">
+          <div class="howtoIcon" aria-hidden="true">
+            <!-- simple spribe-like icon: 2 stars + bomb -->
+            <svg viewBox="0 0 64 32">
+              <path class="s" d="M16 2.8l2.4 5 5.5.5-4.1 3.5 1.2 5.4-5-2.3-5 2.3 1.2-5.4-4.1-3.5 5.5-.5L16 2.8z"/>
+              <path class="s" d="M30 6.8l1.9 3.9 4.3.4-3.2 2.7 1 4.2-4-1.9-4 1.9 1-4.2-3.2-2.7 4.3-.4L30 6.8z"/>
+              <circle class="b" cx="46" cy="16" r="7"/>
+              <path class="f" d="M50.5 8.3c1.6-1.7 3.2-1.2 3.2-1.2-.7 1.6-2.2 2.1-3.2 2.2z"/>
+            </svg>
+          </div>
+
+          <div class="howtoGameTitle">MINES</div>
+        </div>
+
+        <div class="spribeMiniBoard" aria-hidden="true">
+          <!-- 5x5 -->
+          <div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div>
+
+          <div class="sbCell"></div>
+          <div class="sbCell safe"><span class="sbStar">★</span></div>
+          <div class="sbCell"></div>
+          <div class="sbCell boom"><span class="sbBoom">✸</span></div>
+          <div class="sbCell"></div>
+
+          <div class="sbCell"></div><div class="sbCell"></div>
+          <div class="sbCell safe"><span class="sbStar">★</span></div>
+          <div class="sbCell"></div><div class="sbCell"></div>
+
+          <div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div>
+          <div class="sbCell safe"><span class="sbStar">★</span></div>
+          <div class="sbCell"></div>
+
+          <div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div><div class="sbCell"></div>
+        </div>
+
+        <p class="howtoText">Each tile hides either a star or a mine.</p>
+        <p class="howtoText howtoText2">
+          Increase the total number of stars for bigger odds and higher rewards.
+          You can cash out after each turn, or try for increased winnings.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GENERIC INFO MODAL -->
+  <div class="modalOverlay hidden" id="infoOverlay">
+    <div class="modal">
+      <div class="modalHead">
+        <div class="modalTitle" id="infoTitle">INFO</div>
+        <button class="modalClose" id="infoCloseBtn">✕</button>
+      </div>
+      <div class="modalBody">
+        <p class="modalText" id="infoBody"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENU DROPDOWN -->
+  <div class="menuPanel hidden" id="menuPanel">
+    <div class="menuHead">demo_user</div>
+
+    <div class="menuRow">
+      <span>Sound</span>
+      <label class="switch">
+        <input type="checkbox" id="soundToggle" />
+        <span class="switchUi"></span>
+      </label>
+    </div>
+
+    <div class="menuDivider"></div>
+    <button class="menuItem" id="topupBtn" style="color: #4caf50;">+ Top Up Wallet</button>
+    <button class="menuItem" id="rulesBtn">Game Rules</button>
+    <button class="menuItem" id="fairBtn">Provably Fair Settings</button>
+
+    <div class="menuDivider"></div>
+
+    <button class="menuItem muted" id="homeBtn">Back to Home</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
