@@ -9,7 +9,7 @@ This project focuses on game logic, UI/UX design, state management, and wallet s
 
 ---
 
-- 🌐 Live Game: [MinesX](https://minesx-game.vercel.app](https://minesx.vercel.app/))
+- 🌐 Live Game: [MinesX](https://minesx.vercel.app/)
 - 💻 GitHub Repo: [MinesX-game](https://github.com/aviraj-singh1/MinesX-game)
 
 ---
